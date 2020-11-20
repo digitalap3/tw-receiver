@@ -361,6 +361,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $doc = new DOMDocument();
       $doc->loadHTML(file_get_contents($destinationfile));    
       $selector = new DOMXPath($doc);
+      $titletext = array();
 	
       // search for confidential tiddlers
       $result = $selector->query("//div[contains(concat(' ', @tags, ' '), ' Confidential ')]");
@@ -375,7 +376,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $result = $selector->query("//div[contains(concat(' ', @tags, ' '), ' Private ')]");
       
       // loop through all private tiddlers
-      $titletext = array();
       foreach($result as $item) {
           $titletext[] = "[[" . $item->getAttribute("title") . "]]"; //save the title for later
           $item->parentNode->removeChild($item); // remove the tiddler
