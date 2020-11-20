@@ -1,7 +1,7 @@
 <?php
 // set a strong secret key. 
 // Set the same secret inside the plugin UI (Control Panel > Saving > TW Receiver)
-$userpassword = "hello i'm a short friendly password"; 
+$userpassword = "this is a password"; 
 
 //version 0.0.5
 
@@ -357,5 +357,23 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	else {
 		failWithMsg('Upload Failed');
 	}
+	// make a public version
+      $doc = new DOMDocument();
+      $doc->loadHTML(file_get_contents($destinationfile));    
+      $selector = new DOMXPath($doc);
+      
+      // search for private tiddlers
+      $result = $selector->query('//div[contains(@tags, "Private")]');
+      
+      // loop through all private tiddlers
+      $titletext = array();
+      foreach($result as $item) {
+          $titletext[] = $item->getAttribute("title"); //save the title for later
+          $item->parentNode->removeChild($item); // remove the tiddler
+      }
+      $str_doc = $doc->saveHTML(); // convert to string
+      $str_doc = str_replace($titletext, '%%%', $str_doc); // remove all mentions of the private tiddler
+      $doc->loadHTML($str_doc); //convert back
+      $doc->saveHTMLFile("./public.html"); // save public version
 }
 ?>
