@@ -368,11 +368,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       // loop through all private tiddlers
       $titletext = array();
       foreach($result as $item) {
+          $titletext[] = "[[" . $item->getAttribute("title") . "]]"; //save the title for later
+          $item->parentNode->removeChild($item); // remove the tiddler
+      }
+	
+      // search for confidential tiddlers
+      $result = $selector->query("//div[contains(concat(' ', @tags, ' '), ' Confidential ')]");
+      
+      // loop through all confidential tiddlers
+      foreach($result as $item) {
           $titletext[] = $item->getAttribute("title"); //save the title for later
           $item->parentNode->removeChild($item); // remove the tiddler
       }
+	
       $str_doc = $doc->saveHTML(); // convert to string
-      $str_doc = str_replace($titletext, '%%%', $str_doc); // remove all mentions of the private tiddler
+      $str_doc = str_replace($titletext, '%%%', $str_doc); // remove all mentions of the private and confidential tiddler
       $doc->loadHTML($str_doc); //convert back
       $doc->saveHTMLFile("./public.html"); // save public version
 }
