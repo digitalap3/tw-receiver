@@ -384,6 +384,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 	
       $str_doc = $doc->saveHTML(); // convert to string
       $str_doc = str_replace($titletext, '%%%', $str_doc); // remove all mentions of the private and confidential tiddler
+      $str_doc = preg_replace('~@@.private[^()]*@@~', '%%%', $str_doc);
       $doc->loadHTML($str_doc); //convert back
       $doc->saveHTMLFile("./public.html"); // save public version
 }
