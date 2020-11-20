@@ -361,16 +361,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $doc = new DOMDocument();
       $doc->loadHTML(file_get_contents($destinationfile));    
       $selector = new DOMXPath($doc);
-      
-      // search for private tiddlers
-      $result = $selector->query("//div[contains(concat(' ', @tags, ' '), ' Private ')]");
-      
-      // loop through all private tiddlers
-      $titletext = array();
-      foreach($result as $item) {
-          $titletext[] = "[[" . $item->getAttribute("title") . "]]"; //save the title for later
-          $item->parentNode->removeChild($item); // remove the tiddler
-      }
 	
       // search for confidential tiddlers
       $result = $selector->query("//div[contains(concat(' ', @tags, ' '), ' Confidential ')]");
@@ -378,6 +368,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       // loop through all confidential tiddlers
       foreach($result as $item) {
           $titletext[] = $item->getAttribute("title"); //save the title for later
+          $item->parentNode->removeChild($item); // remove the tiddler
+      }
+	
+	// search for private tiddlers
+      $result = $selector->query("//div[contains(concat(' ', @tags, ' '), ' Private ')]");
+      
+      // loop through all private tiddlers
+      $titletext = array();
+      foreach($result as $item) {
+          $titletext[] = "[[" . $item->getAttribute("title") . "]]"; //save the title for later
           $item->parentNode->removeChild($item); // remove the tiddler
       }
 	
