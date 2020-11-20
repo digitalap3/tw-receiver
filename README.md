@@ -2,10 +2,22 @@
 # TW Receiver with private tiddlers
 
 This script is based ont tw-receiver, but adds a feature: In addition to saving, you create a public file (public.html) where certain tiddlers have been removed:
- - Tiddlers tagged with **Private** are removed from public.html and links (and tags and fields if multiple words, i.e. `[[tiddler title]]`) are censored to `[[%%%]]`
+ - Tiddlers tagged with **Private** are removed from public.html and links (and tags and fields if multiple words, i.e. `[[tiddler title]]`) are censored to `%%%`
  - Tiddlers tagged with **Confidential** are also removed from public.html, and **all** instances of it are censored to `%%%`, including substrings and HTML tags
  -- You should be a bit careful as it also replaces substrings. A confidential tiddler with title "a" __will break your tiddlywiki__
  -- It is case-sensitive
+ 
+ You can also remove portions of text by embedding it like:
+ 
+ ```
+ This text stays
+ 
+ @@.private
+ This text will be replaced by %%%
+ @@
+ 
+ This text stays
+ ```
  
 **Use this on your own risk, of course. Do not trust this for really sensitive information.**
 
