@@ -363,7 +363,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       $selector = new DOMXPath($doc);
       
       // search for private tiddlers
-      $result = $selector->query('//div[contains(@tags, "Private")]');
+      $result = $selector->query("//div[contains(concat(' ', @tags, ' '), ' Private ')]");
       
       // loop through all private tiddlers
       $titletext = array();
