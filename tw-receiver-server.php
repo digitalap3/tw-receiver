@@ -378,6 +378,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
       // loop through all private tiddlers
       foreach($result as $item) {
           $titletext[] = "[[" . $item->getAttribute("title") . "]]"; //save the title for later
+	  $titletext[] = "<li>" . $item->getAttribute("title") . "</li>";
           $item->parentNode->removeChild($item); // remove the tiddler
       }
 	
