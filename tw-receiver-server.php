@@ -204,7 +204,7 @@ function checkStaleState($submittedhash, $datafile) {
 	return false;
 }
 
-if($_SERVER['REQUEST_METHOD'] = 'GET') {
+if($_SERVER['REQUEST_METHOD'] == 'GET') {
 	
 	// logic to return challenge token 
 	if(isset($_GET['md']) && $_GET['md'] == 'gct'){
